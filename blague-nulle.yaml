@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blague-nulle-back-deployment
+  namespace: blague-nulle
+  labels:
+    app: blague-nulle-back
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: blague-nulle-back
+  template:
+    metadata:
+      labels:
+        app: blague-nulle-back
+    spec:
+      containers:
+        - name: blague-nulle-back
+          image: apozel/blague-back:latest
+
+          env:
+            - name: PORT
+              value: "80"
+            - name: CORS_ENABLED
+              value: "true"
+            - name: API_PREFIX
+              value: "api"
+            - name: APP_URL
+              value: "www.blague-nulle.fr"
+          ports:
+            - name: http
+              containerPort: 80
+          # readinessProbe:
+          #   httpGet:
+          #     path: /status-monitor
+          #     port: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: blague-nulle-back
+  namespace: blague-nulle
+  labels:
+    app: blague-nulle-back
+spec:
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+  selector:
+    app: blague-nulle-back
+  type: LoadBalancer
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: blague-ingress
+  namespace: blague-nulle
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  tls:
+  - hosts:
+    - www.blague-nulle.fr
+    secretName: blague-secret
+  rules:
+  - host: www.blague-nulle.fr
+    http:
+      paths:
+      # - path: /
+      #   pathType: Prefix
+      #   backend:
+      #     service:
+      #       name: tea-svc
+      #       port:
+      #         number: 80
+      - path: /api
+        pathType: Prefix
+        backend:
+          service:
+            name: blague-nulle-back
+            port:
+              number: 80
