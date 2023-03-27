@@ -1,6 +1,4 @@
-from node:18-alpine
-
-EXPOSE 80
+FROM node:18-alpine as builder
 
 WORKDIR /app
 
@@ -8,12 +6,24 @@ COPY ["package.json", "package-lock.json*","tsconfig.json",".env", "/app/"]
 
 RUN npm ci
 
-ENV NODE_ENV=production
-
 COPY ["src", "/app/src"]
 
 RUN npm run build
 
-run mkdir .logs
+FROM node:18-alpine
+
+ENV NODE_ENV=production
+
+EXPOSE 80
+
+WORKDIR /app
+
+COPY --from=builder ["/app/package.json", "/app/package-lock.json*" ,"/app/.env", "/app/"]
+
+COPY --from=builder ["/app/dist", "/app/dist"]
+
+RUN npm ci
+
+RUN mkdir .logs
 
 CMD [ "node", "dist/index.js" ]

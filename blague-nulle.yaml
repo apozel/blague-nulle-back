@@ -60,21 +60,18 @@ metadata:
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
 spec:
-  tls:
-  - hosts:
-    - www.blague-nulle.fr
-    secretName: blague-secret
+  ingressClassName: nginx
   rules:
   - host: www.blague-nulle.fr
     http:
       paths:
-      # - path: /
-      #   pathType: Prefix
-      #   backend:
-      #     service:
-      #       name: tea-svc
-      #       port:
-      #         number: 80
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: blague-nulle-front
+            port:
+              number: 80
       - path: /api
         pathType: Prefix
         backend:
@@ -82,3 +79,7 @@ spec:
             name: blague-nulle-back
             port:
               number: 80
+  tls:
+  - hosts:
+    - www.blague-nulle.fr
+    secretName: blague-secret
