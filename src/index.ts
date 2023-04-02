@@ -1,7 +1,5 @@
-
-
-import NativeEvent from './exception/NativeEvent';
-import App from './providers/App';
+import NativeEvent from "./exception/NativeEvent";
+import App from "./providers/App";
 
 /**
  * Catches the process events
@@ -17,7 +15,6 @@ App.clearConsole();
  * Load Configuration
  */
 App.loadConfiguration();
-
 
 /**
  * Run the Server

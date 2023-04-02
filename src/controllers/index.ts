@@ -1,4 +1,3 @@
 import BlagueController from "./blague";
 
-
-export {BlagueController}
+export { BlagueController };
