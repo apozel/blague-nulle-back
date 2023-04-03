@@ -14,8 +14,8 @@ class BlagueController {
 
   public intializeRoutes() {
     this.router.get(this.path, this.getInfoJokes);
-    this.router.get(`${this.path}/random`, this.returnRandomJoke);
-    this.router.get(`${this.path}/:id`, this.getParticularJoke);
+    this.router.get(`${this.path}/random`, this.getRandomJoke);
+    this.router.get(`${this.path}/:id`, this.getJoke);
   }
 
   private getInfoJokes(req: Request, res: Response) {
@@ -24,15 +24,14 @@ class BlagueController {
     });
   }
 
-  private returnRandomJoke(req: Request, res: Response): any {
-    return res.json(jokes[Math.floor(Math.random() * jokes.length)]);
+  private getRandomJoke(req: Request, res: Response): any {
+    const id = Math.floor(Math.random() * jokes.length);
+    return res.json(jokes[id]);
   }
-  private getParticularJoke(req: Request, res: Response): any {
+
+  private getJoke(req: Request, res: Response): any {
     const { id } = req.params;
-    if (!id || typeof id !== "number") {
-      return res.status(401);
-    }
-    res.status(200).send(jokes[id]);
+    return res.json(jokes[Number(id)]);
   }
 }
 

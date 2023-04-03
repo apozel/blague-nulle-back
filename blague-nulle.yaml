@@ -18,7 +18,7 @@ spec:
       containers:
         - name: blague-nulle-back
           image: apozel/blague-back:latest
-
+          imagePullPolicy: Always
           env:
             - name: PORT
               value: "80"
@@ -62,24 +62,24 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - host: www.blague-nulle.fr
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: blague-nulle-front
-            port:
-              number: 80
-      - path: /api
-        pathType: Prefix
-        backend:
-          service:
-            name: blague-nulle-back
-            port:
-              number: 80
+    - host: www.blague-nulle.fr
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: blague-nulle-front
+                port:
+                  number: 80
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: blague-nulle-back
+                port:
+                  number: 80
   tls:
-  - hosts:
-    - www.blague-nulle.fr
-    secretName: blague-secret
+    - hosts:
+        - www.blague-nulle.fr
+      secretName: blague-secret
