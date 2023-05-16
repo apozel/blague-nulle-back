@@ -54,6 +54,7 @@ class Log {
   private addLog(_kind: string, _string: string): void {
     const _that = this;
     _kind = _kind.toUpperCase();
+    console.log(`${_that.linePrefix} [${_kind}] ${_string}`);
 
     fs.open(
       `${_that.baseDir}${_that.fileName}`,

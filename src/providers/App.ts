@@ -4,6 +4,7 @@ import * as dotenv from "dotenv";
 import Express from "./Express";
 
 import Log from "../middlewares/Log";
+import Database from "./Database";
 
 class App {
   // Clear the console
@@ -17,6 +18,13 @@ class App {
 
     dotenv.config({ path: path.join(__dirname, "../../.env") });
   }
+
+  // Loads the Database Pool
+	public loadDatabase (): void {
+		Log.info('Database :: Booting @ Master...');
+
+		Database.init();
+	}
 
   // Loads your Server
   public loadServer(): void {

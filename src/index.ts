@@ -16,6 +16,8 @@ App.clearConsole();
  */
 App.loadConfiguration();
 
+App.loadDatabase();
+
 /**
  * Run the Server
  */

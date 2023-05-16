@@ -34,11 +34,6 @@ class Locals {
     const queueMonitor = process.env.QUEUE_HTTP_ENABLED || true;
     const queueMonitorHttpPort = process.env.QUEUE_HTTP_PORT || 5550;
 
-    const redisHttpPort = process.env.REDIS_QUEUE_PORT || 6379;
-    const redisHttpHost = process.env.REDIS_QUEUE_HOST || "127.0.0.1";
-    const redisPrefix = process.env.REDIS_QUEUE_DB || "q";
-    const redisDB = process.env.REDIS_QUEUE_PREFIX || 3;
-
     return {
       appSecret,
       apiPrefix,
@@ -54,10 +49,6 @@ class Locals {
       mongooseUrl,
       name,
       port,
-      redisDB,
-      redisHttpPort,
-      redisHttpHost,
-      redisPrefix,
       url,
       queueMonitor,
       queueMonitorHttpPort,

@@ -9,7 +9,8 @@ class Routes {
     const apiPrefix = Locals.config().apiPrefix;
     Log.info("Routes :: Mounting API Routes...");
 
-    _express.use(`/${apiPrefix}`, controllers.BlagueController.router);
+    _express.use(`/${apiPrefix}/blague`, controllers.BlagueController.router);
+    _express.use(`/${apiPrefix}/auth`, controllers.AuthController.router);
 
     return _express;
   }
