@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
 import { IBlague } from "../interfaces/blague";
 
-export type Blague = {
+export type BlagueJson = {
   id: number;
   type: string;
   joke: string;
@@ -13,6 +13,6 @@ export const BlagueSchema = new Schema<IBlague>({
   answer: { type: String },
 });
 
-const BlagueModel = model<IBlague>("Blague", BlagueSchema);
+const Blague = model<IBlague>("Blague", BlagueSchema);
 
-export default BlagueModel;
+export default Blague;

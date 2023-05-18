@@ -1,5 +1,5 @@
 import { Request, Response, Router } from "express";
-import jokes from "../data";
+import Blague from "../model/blague";
 /**
  * GET /
  * Home page.
@@ -17,23 +17,27 @@ class BlagueController {
     this.router.get("/:id", this.getJoke);
   }
 
-  private getInfoJokes(req: Request, res: Response) {
+  private async getInfoJokes(req: Request, res: Response) {
+    const number = await Blague.count()
+    const listOfType: string[] = await Blague.distinct("type")
     return res.json({
-      size: jokes.length,
+      size: number,
+      tags: listOfType
     });
   }
 
-  private getRandomJoke(req: Request, res: Response): any {
+  private async getRandomJoke(req: Request, res: Response): Promise<any> {
     // Get one random document from the mycoll collection.
     //db.mycoll.aggregate([{ $sample: { size: 1 } }]);
-
-    const id = Math.floor(Math.random() * jokes.length);
-    return res.json(jokes[id]);
+    //BlagueModel.aggregate([{ $sample: { size: 1 } }])
+    const joke = await Blague.aggregate([{ $sample: { size: 1 } }])
+    return res.json(joke[0]);
   }
 
-  private getJoke(req: Request, res: Response): any {
+  private async getJoke(req: Request, res: Response): Promise<any> {
     const { id } = req.params;
-    return res.json(jokes[Number(id)]);
+    const joke = await Blague.findById(id)
+    return res.json(joke);
   }
 }
 
